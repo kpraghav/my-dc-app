@@ -1,5 +1,6 @@
 import React from 'react';
 import { Typography } from '@mui/material';
+import CustomDataGrid from './CustomDataGrid';
 
 const NonProductionReadiness = ({ dbName, status }) => {
   return (
@@ -8,6 +9,7 @@ const NonProductionReadiness = ({ dbName, status }) => {
         NonProduction Readiness for {dbName}
       </Typography>
       <Typography>Status: {status}</Typography>
+      <CustomDataGrid />
     </div>
   );
 };
