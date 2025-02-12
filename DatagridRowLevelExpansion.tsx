@@ -31,44 +31,41 @@ const DataGridExample: React.FC = () => {
     }));
   };
 
-  // Define columns dynamically based on expanded state
-  const getColumns = (row: RowData): GridColDef[] => {
-    const baseColumns: GridColDef[] = [
-      {
-        field: "expand",
-        headerName: "",
-        width: 50,
-        sortable: false,
-        filterable: false,
-        renderCell: (params: GridRenderCellParams) => (
-          <IconButton size="small" onClick={() => toggleRow(params.row.id)}>
-            {expandedRows[params.row.id] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </IconButton>
-        )
-      },
-      { field: "name", headerName: "Name", width: 150 },
-      { field: "age", headerName: "Age", width: 100 }
-    ];
-
-    const expandedColumns: GridColDef[] = [
-      { field: "email", headerName: "Email", width: 200 },
-      { field: "country", headerName: "Country", width: 150 }
-    ];
-
-    return expandedRows[row.id] ? [...baseColumns, ...expandedColumns] : baseColumns;
-  };
+  // Define columns
+  const columns: GridColDef[] = [
+    {
+      field: "expand",
+      headerName: "",
+      width: 50,
+      sortable: false,
+      filterable: false,
+      renderCell: (params: GridRenderCellParams) => (
+        <IconButton size="small" onClick={() => toggleRow(params.row.id)}>
+          {expandedRows[params.row.id] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        </IconButton>
+      )
+    },
+    { field: "name", headerName: "Name", width: 150 },
+    { field: "age", headerName: "Age", width: 100 },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 200,
+      renderCell: (params: GridRenderCellParams) =>
+        expandedRows[params.row.id] ? params.value : ""
+    },
+    {
+      field: "country",
+      headerName: "Country",
+      width: 150,
+      renderCell: (params: GridRenderCellParams) =>
+        expandedRows[params.row.id] ? params.value : ""
+    }
+  ];
 
   return (
     <div style={{ height: 400, width: "100%" }}>
-      {initialRows.map((row) => (
-        <DataGrid
-          key={row.id}
-          rows={[row]}
-          columns={getColumns(row)}
-          hideFooter
-          autoHeight
-        />
-      ))}
+      <DataGrid rows={initialRows} columns={columns} pageSizeOptions={[5]} />
     </div>
   );
 };
